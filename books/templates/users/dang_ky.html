@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;/* Thiết lập kiểu chữ chung là Arial (hoặc font không chân nếu Arial không có).*/
+            background-color: #f4f4f4;/*Đặt màu nền của trang  */
+            margin: 0;/*Loại bỏ phần lề và đệm mặc định của trang. */
+            padding: 0;/*Loại bỏ phần lề và đệm mặc định của trang. */
+        }
+
+        h2 {
+            color: #333;/* Đặt màu chữ của tiêu đề */
+            text-align: center;/*Căn giữa chữ của tiêu đề. */
+            margin-top: 20px;/* Thêm khoảng cách trên 20 pixel.*/
+        }
+
+        form {
+            max-width: 500px;/*Giới hạn chiều rộng tối đa của biểu mẫu là 500 pixel. */
+            margin: 0 auto;/*Căn giữa biểu mẫu bằng margin: 0 auto;. */
+            padding: 20px;/*Thêm đệm bên trong 20 pixel. */
+            background-color: #fff;/*Đặt màu nền của biểu mẫu là trắng (#fff). */
+            border-radius: 8px;/*Bo tròn góc biểu mẫu với bán kính 8 pixel. */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);/*Thêm hiệu ứng đổ bóng nhẹ xung quanh biểu mẫu (box-shadow). */
+        }
+
+        form p {
+            margin-bottom: 20px;/* */
+            font-size: 14px;/* */
+            color: #666;/* */
+        }
+
+        button {
+            display: block;/*Thiết lập nút là phần tử dạng khối (display: block;), chiếm toàn bộ chiều rộng của phần tử cha. */
+            width: 100%;/*Đặt chiều rộng nút là 100%, đảm bảo nó bao phủ toàn bộ chiều rộng của form. */
+            padding: 10px;/*Thêm đệm 10 pixel để mở rộng khu vực có thể nhấp chuột. */
+            background-color: #007BFF;/*Đặt màu nền của nút là xanh dương (#007BFF) và màu chữ là trắng. */
+            color: #fff;/* */
+            border: none;/*Loại bỏ đường viền mặc định. */
+            border-radius: 4px;/*Bo tròn góc của nút với bán kính 4 pixel. */
+            font-size: 16px;/*ăng kích thước font chữ lên 16 pixel. */
+            cursor: pointer;/*Thay đổi con trỏ chuột thành hình bàn tay khi di chuột qua nút. */
+        }
+
+        button:hover {
+            background-color: #0056b3;/* */
+        }
+
+        .error {
+            color: red;/*Định dạng cho các thông báo lỗi, với màu chữ đỏ và khoảng cách dưới 20 pixel. */
+            margin-bottom: 20px;/*Định dạng mặc định cho các liên kết với màu xanh dương (#007BFF) và không gạch chân. */
+        }
+
+        a {
+            color: #007BFF;/* */
+            text-decoration: none;/* */
+        }
+
+        a:hover {
+            text-decoration: underline;/*Thêm gạch chân cho liên kết khi di chuột qua. */
+        }
+    </style>
+</head>
+<body>
+    <h2>Đăng Ký</h2> <!--Tiêu đề cấp 2 với nội dung "Đăng Ký", được căn giữa ở đầu trang. -->
+    <form method="post"> <!--Phần tử biểu mẫu (form) gửi dữ liệu đến máy chủ bằng phương thức POST. -->
+        {% csrf_token %} <!--Thẻ mẫu của Django để thêm token CSRF cho bảo mật, ngăn ngừa các cuộc tấn công CSRF. -->
+        {{ form.as_p }}<!-- Biến mẫu Django dùng để hiển thị các trường của form dưới dạng các đoạn văn (p). -->
+        <button type="submit">Đăng Ký</button><!--Nút gửi form với nhãn "Đăng Ký". -->
+    </form>
+    <p>Đã có tài khoản? <a href="{% url 'dang_nhap' %}">Đăng nhập tại đây</a></p><!--Một đoạn văn cung cấp liên kết đến trang đăng nhập. {% url 'dang_nhap' %} là thẻ mẫu Django để tạo URL cho trang có tên là 'dang_nhap'. -->
+</body>
+</html>

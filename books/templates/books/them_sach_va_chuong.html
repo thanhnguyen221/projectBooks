@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm Sách và Chương</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #021526; /* Nền màu sáng */
+        }
+
+        h1 {
+            background-color: #40534C;  /* Màu nền của tiêu đề */
+            color: white;  /* Màu chữ của tiêu đề */
+            padding: 15px;/* Khoảng cách bên trong tiêu đề */
+            text-align: center; /* Căn giữa tiêu đề */
+            margin: 0;/* Loại bỏ khoảng cách ngoài tiêu đề */
+        }
+
+        form {
+            max-width: 800px;/* Chiều rộng tối đa của form */
+            margin: 20px auto;/* Tự động căn giữa và khoảng cách từ trên và dưới */
+            padding: 20px;/* Khoảng cách bên trong form */
+            background-color: #40534C;  /* Màu nền của form */
+            border-radius: 8px;/* Bo tròn các góc của form */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);/* Đổ bóng cho form */
+        }
+
+        fieldset {
+            border: 1px solid #A6B37D; /* Màu và độ dày của viền */
+            padding: 15px; /* Khoảng cách bên trong fieldset */
+            margin-bottom: 20px;/* Khoảng cách dưới fieldset */
+            border-radius: 8px;/* Bo tròn các góc của fieldset */
+        }
+
+        legend {
+            font-weight: bold;/* Đậm chữ của legend */
+            padding: 0 10px; /* Khoảng cách bên trong legend */
+            font-size: 1.2em; /* Kích thước chữ của legend */
+            color: #B99470; /* Màu tiêu đề của fieldset */
+        }
+
+        button {
+            background-color: #5F6F65;/* Màu nền của nút */
+            color: white;/* Màu chữ của nút */
+            border: none; /* Loại bỏ viền của nút */
+            padding: 10px 20px;/* Khoảng cách bên trong nút */
+            border-radius: 5px;/* Bo tròn các góc của nút */
+            cursor: pointer;/* Hiển thị con trỏ khi di chuột qua nút */
+            font-size: 1em;/* Kích thước chữ của nút */
+        }
+
+        button:hover {
+            background-color: #A6B37D; /* Màu nền của nút khi hover */
+        }
+
+        a {
+            display: inline-block;/* Hiển thị liên kết dưới dạng khối inline */
+            margin-top: 20px;/* Khoảng cách trên liên kết */
+            text-decoration: none;/* Loại bỏ gạch chân mặc định */
+            color: #B99470; /* Màu chữ của liên kết */
+            font-weight: bold;/* Chữ đậm */
+        }
+
+        a:hover {
+            text-decoration: underline;/* Gạch chân liên kết khi hover */
+        }
+
+        .chapter-container {
+            margin-bottom: 20px;/* Khoảng cách dưới container chứa chương */
+        }
+
+        .formset-form {
+            border: 1px solid #ddd; /* Màu và độ dày của viền */
+            padding: 10px;/* Khoảng cách bên trong formset-form */
+            margin-bottom: 10px;/* Khoảng cách dưới formset-form */
+            border-radius: 5px;/* Bo tròn các góc của formset-form */
+            background-color: #40534C;/* Màu nền của formset-form */
+        }
+    </style>
+    <script>
+        // Hàm thêm một trường chương mới vào form
+        function addChapterField() {
+            const chapterContainer = document.getElementById('chapter-container');/*Lấy phần tử chứa các trường chương.*/
+            const totalForms = document.querySelector('#id_form-TOTAL_FORMS');/*Lấy số lượng form hiện tại.*/
+            const formCount = parseInt(totalForms.value);/* Chuyển đổi số lượng form thành số nguyên.*/
+
+            // Clone the first chapter form and replace form number
+            const newForm = document.createElement('div');/*Tạo một phần tử div mới cho chương.*/
+            newForm.classList.add('formset-form');/*Thêm lớp formset-form cho phần tử mới.*/
+            newForm.innerHTML = chapterContainer.querySelector('.formset-form').outerHTML.replace(/form-(\d+)/g, `form-${formCount}`);/*Sao chép nội dung của form chương đầu tiên và thay thế số thứ tự form.*/
+            chapterContainer.appendChild(newForm);/*Thêm form mới vào container*/
+
+            // Update the total number of forms
+            totalForms.value = formCount + 1;/*Cập nhật số lượng form hiện tại.*/
+        }
+    </script>
+</head>
+<body>
+    <h1>Thêm Sách và Chương</h1>
+    <form method="post" enctype="multipart/form-data"> <!-- Mở thẻ form với phương thức POST và kiểu mã hóa cho việc tải lên tệp. -->
+        {% csrf_token %}  <!--Thêm mã thông báo CSRF cho bảo mật trong Django. -->
+        
+        <!-- Form thêm sách -->
+        <fieldset>   <!--Nhóm các trường liên quan đến việc thêm sách. -->
+            <legend>Thêm Sách</legend><!--Tiêu đề cho fieldset sách. -->
+            {{ sach_form.as_p }}<!--Hiển thị form thêm sách dưới dạng các thẻ <p> -->
+        </fieldset>
+        
+        <!-- Container for dynamically added chapters -->
+        <div id="chapter-container" class="chapter-container"> <!--Container cho các trường chương động. -->
+            {{ chuong_formset.management_form }}  <!--Quản lý formset trong Django để theo dõi số lượng các form. -->
+            {% for form in chuong_formset %}    <!-- Lặp qua các form chương và hiển thị chúng. -->
+                <div class="formset-form"><!-- -->
+                    {{ form.as_p }} <!-- -->
+                </div>
+            {% endfor %} <!-- -->
+        </div>
+
+        <!-- Button to add more chapter fields -->
+        <button type="button" onclick="addChapterField()">Thêm Chương Mới</button> <!-- -->
+        <button type="submit">Lưu</button>
+    </form>
+    <a href="{% url 'danh_sach_sach' %}">Quay lại danh sách sách</a><!--Liên kết để quay lại danh sách sách. -->
+</body>
+</html>

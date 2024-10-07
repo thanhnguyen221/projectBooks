@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ladino</title>
+    <style>
+        /* Định nghĩa các phong cách CSS của trang web */
+        /* body: Thiết lập phông chữ mặc định, màu nền và màu chữ chính */
+       body {
+            font-family: Arial, sans-serif;  /* Đặt phông chữ mặc định của trang là Arial, hoặc phông chữ sans-serif nếu Arial không có. */
+            margin: 0; /* Loại bỏ khoảng cách mặc định bên ngoài của body. */
+            padding: 0; /* Loại bỏ khoảng cách mặc định bên trong của body. */
+            background-color: #021526; /* Nền màu tối */
+            color: #FFEAC5; /* Màu chữ chính */
+        }
+        /* h1: Thiết lập kiểu chữ và căn giữa cho tiêu đề chính */
+        h1 {
+            color: #FFEAC5; /* Màu tiêu đề chính */
+            cursor: pointer;  /* Con trỏ chuyển thành hình bàn tay khi di chuột qua */
+            font-size: 2rem;  /* Kích thước chữ */
+            text-align: center; /* Căn giữa tiêu đề */
+            margin: 20px 0;/* Thêm khoảng cách 20px ở trên và dưới tiêu đề. */
+        }
+        /* .header-container: Định dạng thanh điều hướng trên cùng của trang */
+        .header-container {
+            display: flex;                   /* Sử dụng flexbox để căn chỉnh các phần tử con */
+            justify-content: space-between;  /* Căn giữa các phần tử con cách đều nhau */
+            align-items: center;             /* Căn giữa theo chiều dọc */
+            padding: 0 20px;                 /* Thêm khoảng cách 20px ở hai bên của container. */
+            background-color: #1E2A38;     /* Nền của header */
+            border-bottom: 2px solid #6C4E31; /* Thêm viền dưới thanh điều hướng với màu nâu và độ dày 2px. */
+        }
+          /* Phần chứa nút đăng nhập và đăng ký */
+        .auth-container {
+            display: flex;  /* Sử dụng flexbox để căn chỉnh các phần tử con bên trong. */
+            align-items: center;/* Căn giữa các phần tử con theo chiều dọc. */
+            gap: 10px; /* Thêm khoảng cách 10px giữa các nút đăng nhập, đăng ký, và đăng xuất. */
+        }
+         /* Định dạng cho các nút đăng nhập, đăng ký, và đăng xuất */
+        .auth-button, .logout-button {
+            background-color: #E2E2B6; /* Đặt màu nền của nút là màu vàng nhạt. */
+            color: #021526;  /* Đặt màu chữ của nút là màu xanh tối. */
+            border: none;  /* Loại bỏ viền của nút. */
+            border-radius: 5px; /* Bo tròn các góc của nút với bán kính 5px. */
+            padding: 10px;/* Thêm khoảng cách 10px bên trong nút. */
+            font-weight: bold; /* Làm chữ đậm để tăng độ nổi bật. */
+            cursor: pointer; /* Hiển thị con trỏ bàn tay khi di chuột qua nút. */
+            transition: background-color 0.3s ease; /* Thêm hiệu ứng chuyển tiếp mượt mà khi thay đổi màu nền của nút. */
+            text-decoration: none;  /* Loại bỏ các hiệu ứng trang trí văn bản như gạch chân. */
+        }
+          /* Hiệu ứng khi di chuột qua các nút */
+        .auth-button:hover, .logout-button:hover {
+            background-color: #6C4E31;  /* Thay đổi màu nền của nút khi di chuột qua thành màu nâu tối hơn. */
+            color: #FFEAC5;/* Thay đổi màu chữ khi di chuột qua thành màu vàng nhạt hơn. */
+        }
+         /* Định dạng cho tên người dùng */
+        .username {
+            font-size: 1rem; /* Đặt kích thước chữ của tên người dùng là 1rem, tương đương với khoảng 16px. */
+            font-weight: bold; /* Làm chữ đậm để tăng độ nổi bật. */
+        }
+        /* Phần chứa danh sách thể loại sách */
+        .genre-container {
+            position: relative; /* Vị trí tương đối để có thể định vị phần tử con tuyệt đối */
+        }
+        /* Nút thể loại sách */
+        .genre-button {
+            background-color: #E2E2B6;/* Đặt màu nền của nút thể loại là màu vàng nhạt. */
+            color: #021526;/* Đặt màu chữ của nút thể loại là màu xanh tối. */
+            border: none;/* Loại bỏ viền của nút. */
+            border-radius: 5px;/* Bo tròn các góc của nút với bán kính 5px. */
+            padding: 10px;/* Thêm khoảng cách 10px bên trong nút. */
+            font-weight: bold;/* Làm chữ đậm để tăng độ nổi bật. */
+            cursor: pointer;/* Hiển thị con trỏ bàn tay khi di chuột qua nút. */
+            transition: background-color 0.3s ease; /* Thêm hiệu ứng chuyển tiếp mượt mà khi thay đổi màu nền của nút. */
+        }
+          /* Hiệu ứng khi di chuột qua nút thể loại */
+        .genre-button:hover {
+            background-color: #6C4E31;/* Thay đổi màu nền của nút khi di chuột qua thành màu nâu tối hơn. */
+            color: #FFEAC5;/* Thay đổi màu chữ khi di chuột qua thành màu vàng nhạt hơn. */
+        }
+         /* Danh sách thể loại dạng dropdown */
+        .genre-dropdown {
+            display: none;/* Ẩn dropdown thể loại mặc định. */
+            position: absolute; /* Đặt vị trí của dropdown là tuyệt đối so với phần tử cha. */
+            top: 100%;/* Đặt dropdown ngay dưới nút thể loại. */
+            left: 0;/* Đặt dropdown căn lề trái với nút thể loại. */
+            background-color: rgba(255, 255, 255, 0.85);/* Màu nền của dropdown là trắng với độ trong suốt 85%. */
+            border: 1px solid #6C4E31;/* Viền của dropdown là màu nâu với độ dày 1px. */
+            border-radius: 10px;/* Bo tròn các góc của dropdown với bán kính 10px. */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);/* Thêm bóng đổ cho dropdown để nổi bật hơn. */
+            padding: 10px;/* Thêm khoảng cách 10px bên trong dropdown. */
+            z-index: 1000; /* Đặt z-index cao để đảm bảo dropdown hiển thị trên các phần tử khác. */
+            width: 200px;/* Đặt chiều rộng của dropdown là 200px. */
+            max-height: 300px; /* Đặt chiều cao tối đa của dropdown là 300px. */
+            overflow-y: auto; /* Tạo thanh cuộn khi nội dung vượt quá chiều cao */
+        }
+          /* Khi dropdown được mở */
+        .genre-dropdown.show {
+            display: block;  /* Hiển thị dropdown khi lớp có lớp 'show'. */
+        }
+         /* Nút trong dropdown thể loại */
+        .genre-dropdown button {
+            background-color: transparent; /* Nền của nút trong dropdown là trong suốt. */
+            color: #1E201E; /* Màu chữ của nút là màu gần như đen. */
+            border: none; /* Loại bỏ viền của nút. */
+            border-radius: 5px; /* Bo tròn các góc của nút với bán kính 5px. */
+            padding: 10px;/* Thêm khoảng cách 10px bên trong nút. */
+            text-align: left;/* Căn lề trái cho chữ bên trong nút. */
+            width: 100%;/* Đặt chiều rộng của nút bằng 100% chiều rộng của dropdown. */
+            cursor: pointer; /* Hiển thị con trỏ bàn tay khi di chuột qua nút. */
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;/* Thêm hiệu ứng chuyển tiếp mượt mà khi thay đổi màu nền, màu chữ và khi phóng to nút. */
+        }
+         /* Hiệu ứng khi di chuột qua nút trong dropdown thể loại */
+        .genre-dropdown button:hover {
+            background-color: #FFDBB5;/* Thay đổi màu nền của nút khi di chuột qua thành màu vàng nhạt hơn. */
+            color: #603F26;/* Thay đổi màu chữ khi di chuột qua thành màu nâu tối hơn. */
+            transform: scale(1.05); /* Phóng to nhẹ */
+        }
+        /* Phần chứa thanh tìm kiếm */
+        .search-container {
+            display: flex; /* Sử dụng flexbox để căn chỉnh các phần tử con bên trong. */
+            align-items: center;/* Căn giữa các phần tử con theo chiều dọc. */
+            justify-content: flex-end;  /* Căn các phần tử con về phía bên phải. */
+            margin-top: 10px;/* Thêm khoảng cách 10px ở trên của container. */
+        }
+          /* Định dạng thanh tìm kiếm */
+        .search-input {
+            padding: 10px;/* Thêm khoảng cách 10px bên trong ô tìm kiếm. */
+            font-size: 16px;/* Đặt kích thước chữ của ô tìm kiếm là 1rem hoặc 16px. */
+            border: 1px solid #6C4E31;/* Viền của ô tìm kiếm là màu nâu với độ dày 1px. */
+            border-radius: 5px;/* Bo tròn các góc của ô tìm kiếm với bán kính 5px. */
+            width: 300px;
+            background-color: #fff; /* Nền trắng cho thanh tìm kiếm */
+            color: #021526; /* Màu chữ tìm kiếm */
+        }
+         /* Phần chứa các cuốn sách */
+        .book-container {
+            display: flex;
+            flex-wrap: wrap;  /* Cho phép cuốn sách tự động xuống hàng */
+            gap: 20px; /* Khoảng cách giữa các cuốn sách */
+            padding: 20px;
+            justify-content: flex-start; /* Căn chỉnh các cuốn sách từ trái sang phải */
+            box-sizing: border-box;
+        }
+        /* Định dạng cho mỗi cuốn sách */
+        .book-item {
+            background-color: #40534C;
+            border: 1px solid #6C4E31;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            flex: 1 1 calc(16.66% - 20px); /* Điều chỉnh để có 6 cuốn sách mỗi hàng */
+            box-sizing: border-box;
+            min-width: 150px; /* Đặt kích thước tối thiểu để không quá nhỏ */
+            max-width: 200px; /* Đảm bảo không rộng quá mức */
+        }
+          /* Định dạng cho phần chứa ảnh của mỗi cuốn sách */
+        .book-image-container {
+            display: block;/* Hiển thị phần chứa ảnh như một khối. */
+            position: relative;/* Đặt vị trí của phần chứa ảnh là tương đối để định vị các phần tử con. */
+            overflow: hidden; /* Để ảnh không tràn ra ngoài */
+        }
+          /* Ảnh bìa sách */
+        .book-image-container img {
+            border-radius: 8px;/* Bo tròn các góc của ảnh với bán kính 8px. */
+            max-width: 100%;/* Đảm bảo ảnh không vượt quá chiều rộng của phần chứa ảnh. */
+            height: auto;/* Giữ tỷ lệ chiều cao của ảnh tự động. */
+            transition: transform 0.3s ease; /* Thêm hiệu ứng chuyển động khi hover */
+            cursor: pointer; /* Hiển thị con trỏ tay khi di chuột qua ảnh */
+        }
+         /* Hiệu ứng khi di chuột qua ảnh bìa sách */
+        .book-image-container:hover img {
+            transform: scale(1.05); /* Hiệu ứng phóng to ảnh khi di chuột */
+        }
+        /* Các định dạng khác như tiêu đề, thể loại của cuốn sách */
+        .book-item h2, .book-item p {
+            color: black;/* Đặt màu chữ của tiêu đề và mô tả là màu nâu tối. */
+        }
+
+        .book-item .genre {
+            color: black;/* Đặt màu chữ của thể loại là màu nâu nhạt hơn. */
+            font-style: italic;/* Đặt kiểu chữ nghiêng cho thể loại. */
+        }
+        /* Định dạng nút đọc sách */
+        .read-button {
+            display: inline-block;/* Hiển thị nút như một khối nội tuyến với các thuộc tính khối. */
+            padding: 10px 20px;/* Thêm khoảng cách 10px trên và dưới, và 20px ở hai bên của nút. */
+            background-color: #603F26; /* Đặt màu nền của nút là màu nâu tối. */
+            color: #FFEAC5;/* Đặt màu chữ của nút là màu vàng nhạt. */
+            border: none;/* Loại bỏ viền của nút. */
+            border-radius: 5px;/* Bo tròn các góc của nút với bán kính 5px. */
+            text-decoration: none;/* Loại bỏ các hiệu ứng trang trí văn bản như gạch chân. */
+            font-weight: bold;/* Làm chữ đậm để tăng độ nổi bật. */
+            transition: background-color 0.3s ease;/* Thêm hiệu ứng chuyển tiếp mượt mà khi thay đổi màu nền của nút. */
+        }
+        /* Hiệu ứng khi di chuột qua nút đọc sách */
+        .read-button:hover {
+            background-color: #6C4E31;/* Thay đổi màu nền của nút khi di chuột qua thành màu nâu nhạt hơn. */
+        }
+        /* Định dạng nút quay lại */
+        .back-button {
+            display: inline-block;/* Hiển thị nút như một khối nội tuyến với các thuộc tính khối. */
+            margin: 20px;/* Thêm khoảng cách 20px quanh nút. */
+            padding: 10px 20px;/* Thêm khoảng cách 10px trên và dưới, và 20px ở hai bên của nút. */
+            background-color: #603F26;/* Đặt màu nền của nút là màu nâu tối. */
+            color: #FFEAC5;/* Đặt màu chữ của nút là màu vàng nhạt. */
+            border: none;/* Loại bỏ viền của nút. */
+            border-radius: 5px;/* Bo tròn các góc của nút với bán kính 5px. */
+            text-decoration: none;/* Loại bỏ các hiệu ứng trang trí văn bản như gạch chân. */
+            font-weight: bold;/* Làm chữ đậm để tăng độ nổi bật. */
+            transition: background-color 0.3s ease;
+        }
+           /* Hiệu ứng khi di chuột qua nút quay lại */
+        .back-button:hover {
+            background-color: #6C4E31;
+        }
+        /* Định dạng cho thông báo khi không tìm thấy sách */
+        .no-results {
+            color: #FFEAC5;/* Đặt màu chữ của thông báo là màu vàng nhạt. */
+            font-weight: bold;/* Làm chữ đậm để tăng độ nổi bật. */
+            text-align: center;/* Căn giữa chữ trong thông báo. */
+            margin-top: 20px;/* Thêm khoảng cách 20px phía trên thông báo. */
+        }
+
+        .overlay {
+            display: none;     /* Ẩn phần tử mặc định, không hiển thị trên trang. */
+            position: fixed;   /* Đặt phần tử ở vị trí cố định trong cửa sổ trình duyệt. */
+            top: 0;            /* Đặt phần tử ở góc trên cùng của cửa sổ. */
+            left: 0;           /* Đặt phần tử ở góc bên trái của cửa sổ. */
+            width: 100%;       /* Chiều rộng của lớp phủ bằng 100% chiều rộng cửa sổ. */
+            height: 100%;      /* Chiều cao của lớp phủ bằng 100% chiều cao cửa sổ. */
+            background-color: rgba(0, 0, 0, 0.5); /* Màu nền đen với độ trong suốt 50%, tạo hiệu ứng làm mờ phía sau. */
+            z-index: 900;      /* Đặt lớp phủ lên trên các phần tử khác với giá trị z-index cao hơn. */
+        }
+
+        .overlay.show {
+            display: block;   /* Hiển thị lớp phủ khi lớp có lớp 'show', thay đổi thuộc tính display từ 'none' thành 'block'. */
+        }
+
+        .add-book-container {
+            text-align: center;  /* Căn giữa tất cả nội dung bên trong phần tử này. */
+            padding: 20px;       /* Thêm khoảng cách 20px giữa nội dung và viền của phần tử. */
+        }
+
+        .add-book-button {
+            padding: 10px 20px;  /* Thêm khoảng cách bên trong nút, với 10px ở trên/dưới và 20px ở hai bên. */
+            background-color: #E2E2B6;  /* Màu nền của nút là màu vàng nhạt. */
+            color: #021526;    /* Màu chữ của nút là màu tối, giúp chữ nổi bật trên nền sáng. */
+            border: none;  /* Loại bỏ viền mặc định của nút. */
+            border-radius: 5px;  /* Bo tròn các góc của nút với bán kính 5px để tạo vẻ ngoài mềm mại. */
+            text-decoration: none;  /* Loại bỏ các hiệu ứng trang trí văn bản như gạch chân. */
+            font-weight: bold; /* Làm chữ đậm để tăng độ nổi bật. */
+            transition: background-color 0.3s ease; /* Thêm hiệu ứng chuyển tiếp mượt mà khi thay đổi màu nền của nút. */
+        }
+
+        .add-book-button:hover {
+            background-color: #6C4E31; /* Thay đổi màu nền của nút khi di chuột qua thành màu nâu tối hơn. */
+            color: #FFEAC5; /* Thay đổi màu chữ khi di chuột qua thành màu vàng nhạt hơn. */
+        }
+    </style>
+</head>
+<body>
+    <!-- Định nghĩa lớp phủ cho các menu dropdown hoặc popup -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Tiêu đề trang, có sự kiện click để chuyển hướng về trang chính -->
+    <h1 onclick="goToHomePage()">Ladino</h1>
+
+    <!-- Phần chứa các thành phần tiêu đề và thanh công cụ -->
+    <div class="header-container">
+
+        <!-- Phần lọc theo thể loại -->
+        <div class="genre-container">
+
+            <!-- Nút để mở/đóng dropdown danh sách thể loại -->
+            <button class="genre-button" onclick="toggleDropdown()">Tất cả</button>
+
+            <!-- Menu dropdown chứa các thể loại sách -->
+            <div class="genre-dropdown" id="genre-dropdown">
+
+                <!-- Nút để hiển thị tất cả sách -->
+                <button onclick="filterByGenre('')">Tất cả</button>
+
+                 <!-- Vòng lặp qua các thể loại sách và tạo nút cho từng thể loại -->
+                {% for genre in unique_genres %}
+                    <button onclick="filterByGenre('{{ genre }}')">{{ genre }}</button>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Phần thêm sách mới -->
+        <div class="add-book-container">
+
+            <!-- Liên kết đến trang thêm sách -->
+            <a class="add-book-button" href="{% url 'them_sach_va_chuong' %}">Đóng Góp Sách</a>
+        </div>
+        <!-- Phần xác thực người dùng -->
+        <div class="auth-container"></div>
+        <!-- Nếu người dùng đã đăng nhập -->
+            {% if user.is_authenticated %}
+                <span class="username">Xin chào, {{ user.username }}</span>
+                 <!-- Nút đăng xuất -->
+                <a href="{% url 'logout' %}" class="logout-button" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng xuất</a>
+                <!-- Form ẩn để xử lý đăng xuất -->
+                <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+                    {% csrf_token %}
+                </form>
+            {% else %}
+            <!-- Nếu người dùng chưa đăng nhập -->
+                <a href="{% url 'login' %}" class="auth-button">Đăng nhập</a>
+                <a href="{% url 'signup' %}" class="auth-button">Đăng ký</a>
+            {% endif %}
+        </div>
+        <!-- Phần tìm kiếm sách -->
+        <div class="search-container">
+            <!-- Ô nhập liệu cho tìm kiếm sách -->
+            <input
+                type="text"
+                id="search-input"
+                class="search-input"
+                placeholder="Tìm kiếm sách..."
+                oninput="searchBooks()"
+            />
+        </div>
+    </div>
+    <!-- Phần chứa danh sách sách -->
+    <div class="book-container" id="book-container">
+        <!-- Nếu có sách -->
+        {% if sach_list %}
+            {% for sach in sach_list %}
+            <div class="book-item" data-genre="{{ sach.the_loai }}">
+                <!-- Liên kết đến trang chi tiết sách -->
+                <a href="{% url 'chi_tiet_sach' sach.id %}" class="book-image-container">
+                    <!-- Ảnh bìa của sách -->
+                    <img src="{{ sach.anh_bia.url }}" alt="Ảnh bìa của {{ sach.ten_sach }}">
+                </a>
+                <!-- Thông tin sách -->
+                <h2>{{ sach.ten_sach }}</h2>
+                <p>Tác giả: {{ sach.tac_gia }}</p>
+                <p>Ngày xuất bản: {{ sach.ngay_xuat_ban }}</p>
+                <p class="genre">{{ sach.the_loai }}</p>
+            </div>
+            
+            {% endfor %}
+            <!-- Nếu không có sách -->
+        {% else %}
+            <p class="no-results">Không tìm thấy sách nào.</p>
+        {% endif %}
+    </div>
+
+    <script>
+        // Hàm để hiển thị hoặc ẩn dropdown thể loại
+        function toggleDropdown() {
+            var dropdown = document.getElementById('genre-dropdown');
+            dropdown.classList.toggle('show');
+        }
+        // Hàm để lọc sách theo thể loại
+        function filterByGenre(genre) {
+            var books = document.querySelectorAll('.book-item');
+            books.forEach(function(book) {
+                // Hiển thị hoặc ẩn sách dựa vào thể loại được chọn
+                if (genre === '' || book.dataset.genre === genre) {
+                    book.style.display = 'block';
+                } else {
+                    book.style.display = 'none';
+                }
+            });
+            
+        }
+        // Hàm tìm kiếm sách theo tiêu đề
+        function searchBooks() {
+            var input = document.getElementById('search-input');
+            var filter = input.value.toLowerCase();
+            var books = document.querySelectorAll('.book-item');
+            books.forEach(function(book) {
+                var title = book.querySelector('h2').textContent.toLowerCase();
+                 // Hiển thị sách nếu tiêu đề chứa từ khóa tìm kiếm
+                if (title.includes(filter)) {
+                    book.style.display = 'block';
+                } else {
+                    book.style.display = 'none';
+                }
+            });
+        }
+        // Hàm để chuyển hướng về trang chính
+        function goToHomePage() {
+            window.location.href = "{% url 'danh_sach_sach' %}";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ sach.ten_sach }}</title>
+    <style>
+        /* CSS chung */
+        body {
+            font-family: Arial, sans-serif; /*font-family: Chọn font chữ Arial hoặc sans-serif.*/
+            margin: 20px;/* */
+            background-color: #021526;/* */
+            transition: filter 0.3s, background-color 0.3s;/* */
+        }
+        h1 {
+            color: #FFEAC5; /* Màu tiêu đề chính */
+            cursor: pointer;/* Thay đổi con trỏ thành pointer khi di chuột qua tiêu đề. */
+            font-size: 2rem;/*Kích thước chữ của tiêu đề là 2rem. */
+            text-align: center;/*Canh giữa chữ. */
+            margin: 20px 0;/* Đặt khoảng cách trên và dưới là 20px. */
+        }
+
+        body.night-mode {
+            background-color: #303030;/*Màu nền của trang khi ở chế độ ban đêm là màu xám tối (#303030). */
+            color: #FFFFFF;/*Màu chữ khi ở chế độ ban đêm là màu trắng (#FFFFFF). */
+        }
+
+        .container {
+            display: flex;/* */
+            flex-wrap: wrap;/* */
+            gap: 20px;/* */
+        }
+
+        .book-info, .chapter-list {
+            flex: 1;/*Cho phép phần tử mở rộng để chiếm không gian có sẵn. */
+            min-width: 300px;/*Đặt chiều rộng tối thiểu là 300px. */
+            background-color: #40534C;/*Màu nền là màu hồng nhạt (#FFDBB5). */
+            border-radius: 8px;/*Bo tròn các góc với bán kính 8px. */
+            padding: 20px;/*Đặt khoảng cách nội dung bên trong là 20px. */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);/*Tạo bóng nhẹ cho phần tử với màu đen và độ mờ 10%. */
+            transition: background-color 0.3s, color 0.3s;/*Thay đổi màu nền và màu chữ với thời gian 0.3 giây */
+        }
+
+        body.night-mode .book-info, body.night-mode .chapter-list {
+            background-color: #444;/* */
+            color: #CCC;/* */
+        }
+
+        .book-info h1 {
+            color: black;/*Màu chữ của tiêu đề trong book-info là đen. */
+            text-align: center;/* Canh giữa chữ. */
+            font-size: 2em;/* Kích thước chữ là 2em.*/
+            font-weight: bold;/*Làm đậm chữ. */
+            margin-bottom: 15px;/*Đặt khoảng cách dưới là 15px */
+        }
+
+        body.night-mode .book-info h1 {
+            color: #CCC;/*Màu chữ của tiêu đề trong book-info khi ở chế độ ban đêm là màu xám sáng (#CCC). */
+        }
+
+        .book-info p, .book-info .genre {
+            line-height: 1.6;/* Khoảng cách giữa các dòng là 1.6. */
+            color: black;/*Màu chữ là màu nâu (#6C4E31). */
+            text-align: center;/* Canh giữa chữ.*/
+            font-size: 1.2em;/*Kích thước chữ là 1.2em. */
+            margin-bottom: 10px;/*  Đặt khoảng cách dưới là 10px.*/
+        }
+
+        body.night-mode .book-info p, body.night-mode .book-info .genre {
+            color: #CCC;/* */
+        }
+
+        .book-info .genre {
+            font-style: italic;/*In nghiêng chữ của thể loại sách. */
+        }
+
+        .book-info img {
+            border-radius: 8px;/* Bo tròn các góc của ảnh với bán kính 8px. */
+            max-width: 200px;/*Chiều rộng tối đa của ảnh là 200px. */
+            display: block;/*Hiển thị ảnh như một khối. */
+            margin: 0 auto;/*Đặt khoảng cách tự động để căn giữa ảnh. */
+        }
+
+        .chapter-list h2 {
+            color: white;/*Màu chữ của tiêu đề danh sách chương là màu nâu đậm (#603F26). */
+            text-align: center;/* Canh giữa chữ. */
+        }
+
+        body.night-mode .chapter-list h2 {
+            color: #CCC;/*Màu chữ của tiêu đề danh sách chương khi ở chế độ ban đêm là màu xám sáng (#CCC). */
+        }
+
+        .chapter-list ul {
+            list-style-type: none;/* Loại bỏ dấu đầu mục của danh sách. */
+            padding: 0;/* Đặt khoảng cách nội dung bên trong là 0. */
+        }
+
+        .chapter-list li {
+            background-color: #FFEAC5;/*Màu nền của mục danh sách là màu vàng nhạt (#FFEAC5). */
+            border-radius: 8px;/*Bo tròn các góc với bán kính 8px. */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);/*Tạo bóng nhẹ cho mục danh sách với màu đen và độ mờ 10%. */
+            margin-bottom: 15px;/* Đặt khoảng cách dưới là 15px. */
+            padding: 15px;/* Đặt khoảng cách nội dung bên trong là 15px. */
+            text-align: justify;/*Canh đều chữ trong mục danh sách. */
+            transition: background-color 0.3s;/* Thay đổi màu nền với thời gian 0.3 giây. */
+        }
+
+        body.night-mode .chapter-list li {
+            background-color: #555;/* Màu nền của mục danh sách khi ở chế độ ban đêm là màu xám đậm (#555). */
+        }
+
+        .content-preview {
+            overflow: hidden;/*Ẩn phần nội dung vượt ra ngoài. */
+            text-overflow: ellipsis;/*Hiển thị dấu ba chấm (…) khi nội dung bị cắt. */
+            white-space: nowrap;/* Không xuống dòng để nội dung ở trên một dòng. */
+        }
+
+        .expanded-content {
+            white-space: normal;/*  Cho phép xuống dòng bình thường.*/
+        }
+
+        .button {
+            display: inline-block;/* Hiển thị nút như một khối inline. */
+            padding: 10px 20px;/* Đặt khoảng cách bên trong nút là 10px trên và dưới, 20px trái và phải.*/
+            font-size: 16px;/*Kích thước chữ là 16px */
+            font-weight: bold;/*  Làm đậm chữ.*/
+            color: #FFEAC5;/* Màu chữ của nút là màu vàng nhạt (#FFEAC5). */
+            background-color: #603F26;/*Màu nền của nút là màu nâu đậm (#603F26). */
+            border: none;/*Loại bỏ đường viền của nút. */
+            border-radius: 5px;/*Bo tròn các góc của nút với bán kính 5px. */
+            text-align: center;/* Canh giữa chữ trong nút. */
+            text-decoration: none;/* Loại bỏ gạch chân văn bản. */
+            cursor: pointer;/*Hiển thị con trỏ như một nút bấm. */
+            transition: background-color 0.3s;/*Thay đổi màu nền với thời gian 0.3 giây. */
+            margin-right: 5px;/* Đặt khoảng cách bên phải là 5px.*/
+        }
+
+        .button:hover {
+            background-color: #6C4E31;/*Thay đổi màu nền khi di chuột qua nút thành màu nâu sáng (#6C4E31). */
+        }
+
+        .back-link {
+            display: block;/*Hiển thị liên kết trở về dưới dạng khối. */
+            margin-top: 20px;/* Đặt khoảng cách trên là 20px. */
+            text-align: center;/*  Canh giữa chữ trong liên kết.*/
+        }
+
+        .read-button, .expand-button {
+            margin-top: 10px;/*Đặt khoảng cách trên là 10px cho các nút read-button và expand-button. */
+        }
+
+        .upload-button {
+            margin-top: 20px;/*Đặt khoảng cách trên là 20px cho nút upload-button. */
+        }
+
+        .blurred {
+            filter: blur(8px);/*Áp dụng hiệu ứng mờ với bán kính 8px. */
+        }
+
+        .overlay-visible {
+            display: flex;/*Hiển thị lớp phủ (overlay) dưới dạng flex. */
+        }
+
+        .content-overlay {
+            display: none;/*Ẩn lớp phủ mặc định. */
+            position: fixed;/* Đặt vị trí cố định trên toàn màn hình. */
+            top: 0;/*Đặt lớp phủ bắt đầu từ góc trên bên trái. */
+            left: 0;/* Đặt lớp phủ bắt đầu từ góc trên bên trái.*/
+            width: 100%;/*Chiếm toàn bộ chiều rộng và chiều cao của màn hình */
+            height: 100%;/*Chiếm toàn bộ chiều rộng và chiều cao của màn hình */
+            background: rgba(0, 0, 0, 0.8);/*Nền đen với độ mờ 80%. */
+            z-index: 1000;/*Đặt lớp phủ ở phía trên cùng với chỉ số 1000. */
+            justify-content: center;/* Canh giữa nội dung theo chiều ngang và dọc.*/
+            align-items: center;/*Canh giữa nội dung theo chiều ngang và dọc. */
+            text-align: center;/* Canh giữa chữ. */
+        }
+
+        .content-overlay .expanded-content-box {
+            background-color: #FFDBB5;/*Màu nền của hộp nội dung mở rộng là màu hồng nhạt (#FFDBB5). */
+            border-radius: 8px;/* Bo tròn các góc của hộp với bán kính 8px. */
+            padding: 20px;/*Đặt khoảng cách nội dung bên trong là 20px. */
+            max-width: 80%;/*Chiều rộng và chiều cao tối đa là 80%. */
+            max-height: 80%;/*Chiều rộng và chiều cao tối đa là 80%. */
+            overflow: auto;/*Cho phép cuộn nội dung nếu quá lớn. */
+            color: #6C4E31;/*Màu chữ là màu nâu (#6C4E31). */
+        }
+
+        body.night-mode .content-overlay .expanded-content-box {
+            background-color: #444;/* Màu nền của hộp nội dung mở rộng khi ở chế độ ban đêm là màu xám trung (#444). */
+            color: #CCC;/*Màu chữ khi ở chế độ ban đêm là màu xám sáng (#CCC). */
+        }
+
+        .word {
+            display: inline-block;/*  Hiển thị từ dưới dạng khối inline.*/
+        }
+
+        .highlighted {
+            font-weight: bold;/* Làm đậm chữ.*/
+            color: #FF6F61;/* Màu chữ của từ được đánh dấu là màu cam (#FF6F61). */
+            background-color: #FFFF00;/*Màu nền của từ được đánh dấu là màu vàng (#FFFF00). */
+        }
+
+        .night-mode-toggle {
+            position: fixed;/* Đặt nút chuyển chế độ ban đêm ở vị trí cố định. */
+            bottom: 20px;/* Căn nút cách 20px từ dưới và phải. */
+            right: 20px;/* Căn nút cách 20px từ dưới và phải. */
+            background-color: #603F26;/*Màu nền của nút là màu nâu đậm (#603F26). */
+            color: #FFEAC5;/*Màu chữ của nút là màu vàng nhạt (#FFEAC5). */
+            padding: 10px;/*Đặt khoảng cách bên trong nút là 10px. */
+            border: none;/* Loại bỏ đường viền của nút. */
+            border-radius: 5px;/* Bo tròn các góc của nút với bán kính 5px.*/
+            cursor: pointer;/*  Hiển thị con trỏ như một nút bấm.*/
+            transition: background-color 0.3s;/* Thay đổi màu nền với thời gian 0.3 giây. */
+        }
+
+        .night-mode-toggle:hover {
+            background-color: #6C4E31;/* Thay đổi màu nền khi di chuột qua nút thành màu nâu sáng (#6C4E31). */
+        }
+
+            #next-chapter-button, #stop-reading-button {
+            margin-top: 10px;/*Đặt khoảng cách trên là 10px cho các nút next-chapter và stop-reading. */
+            background-color:  #6C4E31;/* Màu nền của các nút là màu nâu sáng (#6C4E31). */
+            color: #FFFFFF;/*Màu chữ của các nút là màu trắng (#FFFFFF). */
+        }
+
+        #next-chapter-button:hover, #stop-reading-button:hover {
+            background-color:  #6C4E31;/*Màu nền của các nút khi di chuột qua là màu nâu sáng (#6C4E31). */
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Tiêu đề chính của trang, nhấp vào để quay lại danh sách sách -->
+    <h1 onclick="redirectToBookList()">Ladino</h1>
+    
+    <div id="page-content" class="container">
+
+        <!-- Phần thông tin sách -->
+        <div class="book-info">
+            <h1>{{ sach.ten_sach }}</h1>
+            <p>Tác giả: {{ sach.tac_gia }}</p>
+            <p>Ngày xuất bản: {{ sach.ngay_xuat_ban }}</p>
+            <p class="genre">Thể loại: {{ sach.the_loai }}</p>
+            
+            {% if sach.anh_bia %}
+                <img src="{{ sach.anh_bia.url }}" alt="Ảnh bìa của {{ sach.ten_sach }}"> <!-- Ảnh bìa sách nếu có -->
+            {% endif %}
+        </div>
+          <!-- Danh sách các chương của sách -->
+        <div class="chapter-list">
+            <h2>Các Chương</h2>
+            <ul>
+                {% for chuong in sach.chuong.all %}
+                    <li>
+                        <h3>{{ chuong.ten_chuong }}</h3><!-- Tên chương -->
+                        <p id="preview-{{ forloop.counter }}" class="content-preview">
+                            {{ chuong.noi_dung|slice:":200"|escapejs }}... <!-- Nội dung chương, cắt ngắn 200 ký tự -->
+                        </p>
+                        <button class="button read-button" onclick="readChapter('{{ forloop.counter }}')">Đọc Chương</button><!-- Nút đọc chương -->
+                        <button id="expand-button-{{ forloop.counter }}" class="button expand-button" onclick="expandContent('{{ forloop.counter }}')">Xem thêm</button>
+                        <span id="full-content-{{ forloop.counter }}" style="display: none;">{{ chuong.noi_dung|safe }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    
+
+   
+
+    <!-- Lớp phủ cho nội dung mở rộng -->
+    <div id="content-overlay" class="content-overlay">
+        <div class="expanded-content-box">
+            <div id="expanded-content"></div> <!-- Nội dung mở rộng -->
+            <button class="button" onclick="closeOverlay()">Đóng</button>  <!-- Nút đóng lớp phủ -->
+            <button id="read-chapter-button" class="button" onclick="readExpandedContent()">Đọc Chương</button> <!-- Nút đọc nội dung mở rộng -->
+            <button id="stop-reading-button" class="button" onclick="stopReading()">Dừng Đọc</button> <!-- Nút dừng việc đọc -->
+        </div>
+    </div>
+    
+
+    <!-- Nút chuyển đổi chế độ ban đêm -->
+    <button class="night-mode-toggle" onclick="toggleNightMode()">Chế Độ Ban Đêm</button>
+
+    <script>
+                // Biến lưu trữ thông tin về việc đọc văn bản hiện tại
+                let currentSpeech = null;
+                let currentChapterId = null;
+                let isReading = false; // Biến theo dõi trạng thái đọc
+                let pausedSpeechPosition = 0; // Vị trí đã đọc khi tạm dừng
+                
+                 // Hàm mở rộng nội dung của chương
+                function expandContent(chapterId) {
+                    currentChapterId = chapterId;
+                    const fullContent = document.getElementById('full-content-' + chapterId).textContent;
+                    const formattedContent = formatContent(fullContent);
+                    document.getElementById('expanded-content').innerHTML = formattedContent;
+                    document.getElementById('content-overlay').style.display = 'flex'; // Hiển thị lớp phủ
+                    document.getElementById("page-content").classList.add('blurred'); // Mờ phần còn lại
+
+                    // Nếu đang đọc, tiếp tục đọc chương mới
+                    if (isReading) {
+                        readExpandedContent();
+                    }
+                }
+                // Hàm đóng lớp phủ
+                function closeOverlay() {
+                    const overlay = document.getElementById('content-overlay');
+                    document.getElementById("page-content").classList.remove('blurred'); // Gỡ mờ phần còn lại
+                    overlay.style.display = 'none'; // Ẩn lớp phủ
+                    stopReading(); // Dừng đọc khi đóng lớp phủ
+                }
+               // Hàm đọc nội dung mở rộng
+                function readExpandedContent() {
+                    const expandedContent = document.getElementById('expanded-content');
+                    const textToRead = expandedContent.innerText;
+
+                    if (currentSpeech) {
+                        window.speechSynthesis.cancel(); // Hủy bỏ việc đọc hiện tại nếu có
+                    }
+1
+                    // Cài đặt đối tượng SpeechSynthesisUtterance
+                    currentSpeech = new SpeechSynthesisUtterance();
+                    currentSpeech.text = textToRead.substring(pausedSpeechPosition); // Tiếp tục từ vị trí đã dừng
+                    currentSpeech.lang = 'vi-VN';
+
+                    // Xử lý làm nổi bật từ hiện tại
+                    currentSpeech.onboundary = function(event) {
+                        const currentCharIndex = event.charIndex;
+                        const words = document.querySelectorAll('.word');
+
+                        // Tìm từ hiện tại để làm nổi bật
+                        words.forEach(word => {
+                            const start = parseInt(word.getAttribute('data-start'));
+                            const end = start + word.textContent.length;
+                            word.classList.toggle('highlighted', currentCharIndex >= start && currentCharIndex < end);
+                        });
+                    };
+
+                    // Bắt đầu đọc
+                    window.speechSynthesis.speak(currentSpeech);
+                    isReading = true; // Đánh dấu là đang đọc
+                }
+                // Hàm đọc chương cụ thể
+                function readChapter(chapterId) {
+                    currentChapterId = chapterId;
+                    const fullContent = document.getElementById('full-content-' + chapterId).textContent;
+                    const formattedContent = formatContent(fullContent);
+                    document.getElementById('expanded-content').innerHTML = formattedContent;
+                    readExpandedContent();
+                }
+                  // Hàm định dạng nội dung để có thể làm nổi bật từ
+                function formatContent(content) {
+                    const words = content.split(/\s+/);
+                    let currentIndex = 0; // Vị trí bắt đầu
+
+                    return words.map((word, index) => {
+                        const span = `<span id="word-${index}" data-start="${currentIndex}" class="word">${word}</span>`;
+                        currentIndex += word.length + 1; // Cập nhật vị trí cho từ tiếp theo
+                        return span;
+                    }).join(' ');
+                }
+
+                
+                // Hàm dừng việc đọc
+                function stopReading() {
+                    if (currentSpeech) {
+                        window.speechSynthesis.cancel(); // Dừng việc đọc hiện tại
+                        pausedSpeechPosition = document.getElementById('expanded-content').innerText.length - currentSpeech.text.length;
+                        currentSpeech = null; // Xóa đối tượng speech
+                        isReading = false; // Đánh dấu không còn đọc
+                    }
+                }
+                 // Hàm tiếp tục đọc từ điểm dừng
+                function resumeReading() {
+                    if (!isReading) {
+                        readExpandedContent(); // Tiếp tục đọc từ điểm dừng
+                    }
+                }
+                   // Hàm chuyển đổi chế độ ban đêm
+                function toggleNightMode() {
+                    document.body.classList.toggle('night-mode');
+                }
+                // Hàm chuyển hướng đến danh sách sách
+                function redirectToBookList() {
+            window.location.href = "{% url 'danh_sach_sach' %}";
+        }
+
+
+    </script>
+    
+</body>
+</html>

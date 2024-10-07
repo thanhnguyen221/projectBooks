@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;/*Đặt font chữ cho trang là Arial, hoặc font chữ không chân mặc định. */ 
+            background-color: #f4f4f4;/*Đặt màu nền trang  */ 
+            margin: 0;/*Xóa các khoảng cách mặc định của trang. */ 
+            padding: 0;/* Xóa các khoảng cách mặc định của trang.*/ 
+        }
+
+        h2 {
+            color: #333;/* Màu chữ tiêu đề là màu xám đậm (#333). */ 
+            text-align: center;/*Căn giữa chữ của tiêu đề. */ 
+            margin-top: 20px;/*Thêm khoảng cách 20 pixel phía trên tiêu đề. */ 
+        }
+
+        form {
+            max-width: 500px;/*Giới hạn chiều rộng của biểu mẫu là 500 pixel. */ 
+            margin: 0 auto;/*Căn giữa biểu mẫu theo chiều ngang. */ 
+            padding: 20px;/* Thêm đệm trong 20 pixel để tạo khoảng cách giữa nội dung và viền.*/ 
+            background-color: #fff;/*Đặt màu nền của biểu mẫu là màu trắng. */ 
+            border-radius: 8px;/*Làm bo tròn các góc biểu mẫu với bán kính 8 pixel. */ 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);/*Thêm hiệu ứng đổ bóng nhẹ cho biểu mẫu để nổi bật */ 
+        }
+
+        form p {
+            margin-bottom: 20px;/* */ 
+            font-size: 14px;/* */ 
+            color: #666;/* */ 
+        }
+
+        button {
+            display: block;/*Nút hiển thị dưới dạng khối để chiếm hết chiều rộng của phần tử chứa. */ 
+            width: 100%;/*Chiều rộng nút bấm bao phủ toàn bộ chiều rộng của form. */ 
+            padding: 10px;/*Thêm khoảng đệm bên trong nút để tăng vùng nhấp. */ 
+            background-color: #007BFF;/*Màu nền của nút là xanh dương (#007BFF). */ 
+            color: #fff;/*Màu chữ của nút là màu trắng. */ 
+            border: none;/*  Không có đường viền xung quanh nút.*/ 
+            border-radius: 4px;/*Bo tròn các góc nút với bán kính 4 pixel. */ 
+            font-size: 16px;/* Kích thước chữ là 16 pixel.*/ 
+            cursor: pointer;/* Đổi con trỏ chuột thành hình bàn tay khi di chuột qua nút.*/ 
+        }
+
+        button:hover {
+            background-color: #0056b3;/*Khi di chuột qua, màu nền nút chuyển sang xanh dương đậm hơn (#0056b3). */ 
+        }
+
+        .error {
+            color: red;/*Định dạng cho thông báo lỗi với màu chữ đỏ và khoảng cách dưới 20 pixel. */ 
+            margin-bottom: 20px;/*Định dạng cho thông báo lỗi với màu chữ đỏ và khoảng cách dưới 20 pixel. */ 
+        }
+
+        a {
+            color: #007BFF;/*: Định dạng mặc định cho các liên kết với màu xanh dương (#007BFF) và không có gạch chân. */ 
+            text-decoration: none;/*: Định dạng mặc định cho các liên kết với màu xanh dương (#007BFF) và không có gạch chân. */ 
+        }
+
+        a:hover {
+            text-decoration: underline;/*  Thêm gạch chân cho liên kết khi di chuột qua.*/ 
+        }
+    </style>
+</head>
+<body>
+    <h2>Đăng Nhập</h2> <!--Tiêu đề chính của trang với nội dung là "Đăng Nhập", được căn giữa. -->
+    <form method="post"> <!--Bắt đầu biểu mẫu (form) sử dụng phương thức POST để gửi dữ liệu. -->
+        {% csrf_token %} <!-- Thẻ Django để chèn mã token CSRF nhằm bảo vệ form khỏi các cuộc tấn công CSRF. -->
+        {% if form.errors %} <!--Điều kiện Django kiểm tra nếu có lỗi từ form. Nếu có, sẽ hiển thị thông báo lỗi. -->
+            <div class="error"> <!--này hiển thị thông báo lỗi với màu chữ đỏ. -->
+                <p>Vui lòng kiểm tra thông tin nhập vào.</p> <!-- -->
+            </div>
+        {% endif %} <!--Điều kiện Django kiểm tra nếu có lỗi từ form. Nếu có, sẽ hiển thị thông báo lỗi. -->
+        {{ form.as_p }} <!--Biến mẫu Django hiển thị các trường nhập liệu của form dưới dạng đoạn văn (<p>). -->
+        <button type="submit">Đăng Nhập</button> <!-- Nút để gửi form với nhãn "Đăng Nhập"-->
+    </form>
+    <p>Chưa có tài khoản? <a href="{% url 'dang_ky' %}">Đăng ký tại đây</a></p><!-- Một đoạn văn hiển thị liên kết đến trang đăng ký nếu người dùng chưa có tài khoản.-->
+</body>
+</html>
